@@ -1,0 +1,40 @@
+name: Build Pydantic-Core aarch64 (Python 3.13)
+
+on:
+  workflow_dispatch:  # run manually from GitHub Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Install Rust toolchain with aarch64 target
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: aarch64-unknown-linux-gnu
+          default: true
+
+      # Install Python 3.13
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      # Install maturin
+      - name: Install maturin
+        run: pip install maturin
+
+      # Build wheel
+      - name: Build wheel (aarch64)
+        run: maturin build --release --target aarch64-unknown-linux-gnu
+
+      # Upload wheel as artifact
+      - name: Upload wheel
+        uses: actions/upload-artifact@v3
+        with:
+          name: pydantic-core-aarch64-py313
+          path: target/wheels/*.whl
