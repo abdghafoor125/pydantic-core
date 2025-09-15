@@ -34,7 +34,7 @@ jobs:
 
       # Upload wheel as artifact
       - name: Upload wheel
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pydantic-core-aarch64-py313
           path: target/wheels/*.whl
